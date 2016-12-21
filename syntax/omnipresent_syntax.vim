@@ -33,3 +33,20 @@ let g:vimwiki_media_bold_match = '''''''__Text__'''''''
 let g:vimwiki_media_wikilink = g:vimwiki_default_wikilink
 let g:vimwiki_media_tag_search = g:vimwiki_default_tag_search " XXX rework to mediawiki categories format?
 let g:vimwiki_media_tag_match = g:vimwiki_default_tag_match " XXX rework to mediawiki categories format?
+
+
+" Highlight TODO, DONE, FIXME and XXX markers. {{{2
+" I hope this works
+syntax match notesTodo /\<TODO\>/
+syntax match notesXXX /\<XXX\>/
+syntax match notesFixMe /\<FIXME\>/
+syntax match notesInProgress /\<\(CURRENT\|INPROGRESS\|STARTED\|WIP\)\>/
+syntax match notesDoneItem /^\(\s\+\).*\<DONE\>.*\(\n\1\s.*\)*/ contains=@notesInline
+syntax match notesDoneMarker /\<DONE\>/ containedin=notesDoneItem
+highlight def link notesTodo WarningMsg
+highlight def link notesXXX WarningMsg
+highlight def link notesFixMe WarningMsg
+highlight def link notesDoneItem Comment
+highlight def link notesDoneMarker Question
+highlight def link notesInProgress Directory
+

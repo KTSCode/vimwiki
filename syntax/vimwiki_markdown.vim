@@ -7,23 +7,23 @@
 let g:vimwiki_rxEqIn = '\$[^$`]\+\$'
 let g:vimwiki_char_eqin = '\$'
 
-" text: *strong*
+" text: **strong** __strong__
 " let g:vimwiki_rxBold = '\*[^*]\+\*'
-let g:vimwiki_rxBold = '\%(^\|\s\|[[:punct:]]\)\@<='.
-      \'\*'.
-      \'\%([^*`[:space:]][^*`]*[^*`[:space:]]\|[^*`[:space:]]\)'.
-      \'\*'.
+let g:vimwiki_rxItalic = '\%(^\|\s\|[[:punct:]]\)\@<='.
+      \'\(\*\|_\)\{2\}'.
+      \'\%([^*_`[:space:]][^*_`]*[^*_`[:space:]]\|[^*_`[:space:]]\)'.
+      \'\1\{2\}'.
       \'\%([[:punct:]]\|\s\|$\)\@='
-let g:vimwiki_char_bold = '*'
+let g:vimwiki_char_italic = '\*\*\|__'
 
 " text: _emphasis_
 " let g:vimwiki_rxItalic = '_[^_]\+_'
-let g:vimwiki_rxItalic = '\%(^\|\s\|[[:punct:]]\)\@<='.
-      \'_'.
-      \'\%([^_`[:space:]][^_`]*[^_`[:space:]]\|[^_`[:space:]]\)'.
-      \'_'.
+let g:vimwiki_rxBold = '\%(^\|\s\|[[:punct:]]\)\@<='.
+      \'\(\*\|_\)'.
+      \'\%([^*_`[:space:]][^*_`]*[^*_`[:space:]]\|[^*_`[:space:]]\)'.
+      \'\1'.
       \'\%([[:punct:]]\|\s\|$\)\@='
-let g:vimwiki_char_italic = '_'
+let g:vimwiki_char_bold = '\*\|_'
 
 " text: *_bold italic_* or _*italic bold*_
 let g:vimwiki_rxBoldItalic = '\%(^\|\s\|[[:punct:]]\)\@<='.
@@ -60,8 +60,6 @@ let g:vimwiki_char_subscript = ',,'
 let g:vimwiki_rxH = '#'
 let g:vimwiki_symH = 0
 
-
-
 " <hr>, horizontal rule
 let g:vimwiki_rxHR = '^-----*$'
 
@@ -89,3 +87,36 @@ let g:vimwiki_rxMathEnd = '\$\$'
 
 let g:vimwiki_rxComment = '^\s*%%.*$'
 let g:vimwiki_rxTags = '\%(^\|\s\)\@<=:\%([^:[:space:]]\+:\)\+\%(\s\|$\)\@='
+
+
+" Highlight TODO, DONE, FIXME and XXX markers. {{{2
+syntax match notesTodo /\<TODO\>/
+syntax match notesXXX /\<XXX\>/
+syntax match notesFixMe /\<FIXME\>/
+syntax match studyQuestion /@Q/
+syntax match notesInProgress /\<\(CURRENT\|INPROGRESS\|STARTED\|WIP\)\>/
+syntax match notesDoneItem /^\(\s\+\).*\<DONE\>.*\(\n\1\s.*\)*/ contains=@notesInline
+syntax match notesDoneMarker /\<DONE\>/ containedin=notesDoneItem
+highlight def link notesTodo Todo
+highlight def link notesXXX Todo
+highlight def link notesFixMe Todo
+highlight def link studyQuestion Todo
+highlight def link notesDoneItem Comment
+highlight def link notesDoneMarker Question
+highlight def link notesInProgress Directory
+
+" The first line of each note contains the title. {{{2
+syntax match notesTitle /^.*\%1l.*$/ contains=@notesInline
+highlight def link notesTitle ModeMsg
+
+" Customize headers so they stand out more
+highlight link VimwikiHeader1 notesDoneMarker
+highlight link VimwikiHeader2 notesDoneMarker
+highlight link VimwikiHeader3 notesDoneMarker
+highlight link VimwikiHeader4 notesDoneMarker
+highlight link VimwikiHeader5 notesDoneMarker
+highlight link VimwikiHeader6 notesDoneMarker
+highlight def link VimwikiHeaderChar Comment
+
+" Change list markers to grey
+highlight def link VimwikiList Comment

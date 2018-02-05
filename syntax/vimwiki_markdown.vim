@@ -9,7 +9,7 @@ let g:vimwiki_char_eqin = '\$'
 
 " text: **strong** __strong__
 " let g:vimwiki_rxBold = '\*[^*]\+\*'
-let g:vimwiki_rxItalic = '\%(^\|\s\|[[:punct:]]\)\@<='.
+let g:vimwiki_rxBoldItalic = '\%(^\|\s\|[[:punct:]]\)\@<='.
       \'\(\*\|_\)\{2\}'.
       \'\%([^*_`[:space:]][^*_`]*[^*_`[:space:]]\|[^*_`[:space:]]\)'.
       \'\1\{2\}'.
